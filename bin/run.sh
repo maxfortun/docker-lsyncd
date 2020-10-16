@@ -9,6 +9,7 @@ BWD=$(dirname "$SWD")
 RUN_IMAGE="$REPO/$NAME"
 
 DOCKER_RUN_ARGS=( -e container=docker )
+DOCKER_RUN_ARGS+=( -v /etc/resolv.conf:/etc/resolv.conf:ro )
 
 # Publish exposed ports
 imageId=$(docker images --format="{{.Repository}} {{.ID}}"|grep "^$RUN_IMAGE "|awk '{ print $2 }')
@@ -20,6 +21,7 @@ done < <(docker image inspect -f '{{json .Config.ExposedPorts}}' $imageId|jq -r 
 
 MNT=${MNT:-$BWD/mnt}
 DOCKER_RUN_ARGS+=( -v $MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
+DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
 
 docker stop $NAME || true
 docker system prune -f
