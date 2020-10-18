@@ -19,12 +19,12 @@ while read port; do
 	DOCKER_RUN_ARGS+=( -p $hostPort:$port )
 done < <(docker image inspect -f '{{json .Config.ExposedPorts}}' $imageId|jq -r 'keys[]')
 
-MNT=${MNT:-$BWD/mnt}
 HOST_MNT=${HOST_MNT:-$BWD/mnt}
+GUEST_MNT=${GUEST_MNT:-$BWD/mnt}
 
-DOCKER_RUN_ARGS+=( -v $HOST_MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
-DOCKER_RUN_ARGS+=( -v $HOST_MNT/root/.ssh:/root/.ssh )
-DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
+DOCKER_RUN_ARGS+=( -v $GUEST_MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
+DOCKER_RUN_ARGS+=( -v $GUEST_MNT/root/.ssh:/root/.ssh )
+DOCKER_RUN_ARGS+=( -v $HOST_MNT:/mnt/host )
 
 docker stop $NAME || true
 docker system prune -f
