@@ -23,6 +23,7 @@ MNT=${MNT:-$BWD/mnt}
 HOST_MNT=${HOST_MNT:-$BWD/mnt}
 
 DOCKER_RUN_ARGS+=( -v $HOST_MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
+DOCKER_RUN_ARGS+=( -v $HOST_MNT/root/.ssh:/root/.ssh )
 DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
 
 docker stop $NAME || true
