@@ -20,7 +20,9 @@ while read port; do
 done < <(docker image inspect -f '{{json .Config.ExposedPorts}}' $imageId|jq -r 'keys[]')
 
 MNT=${MNT:-$BWD/mnt}
-DOCKER_RUN_ARGS+=( -v $MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
+HOST_MNT=${HOST_MNT:-$BWD/mnt}
+
+DOCKER_RUN_ARGS+=( -v $HOST_MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
 DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
 
 docker stop $NAME || true
