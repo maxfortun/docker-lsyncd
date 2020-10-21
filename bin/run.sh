@@ -26,6 +26,7 @@ DOCKER_RUN_ARGS+=( -v $GUEST_MNT/etc/lsyncd.conf:/etc/lsyncd.conf )
 DOCKER_RUN_ARGS+=( -v $GUEST_MNT/root/.ssh:/root/.ssh )
 DOCKER_RUN_ARGS+=( -v $HOST_MNT:/mnt/host )
 
+docker update --restart=no $NAME
 docker stop $NAME || true
 docker system prune -f
 docker run -d -it --restart=always "${DOCKER_RUN_ARGS[@]}" --name $NAME $RUN_IMAGE:$VERSION "$@"
