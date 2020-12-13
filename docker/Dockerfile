@@ -7,5 +7,7 @@ RUN apk --update add openssh-client rsync lsyncd && \
 	mkdir /root/.ssh && \
 	chmod -R og-rwx /root/.ssh 
 
+RUN rm -rf /var/cache/apk/*
+
 CMD [ "lsyncd", "-nodaemon", "-delay", "0", "/etc/lsyncd.conf" ]
 
